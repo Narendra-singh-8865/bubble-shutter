@@ -1,156 +1,90 @@
-body{
-    cursor: none;
-}
-#info{
-    display: flex;
-    gap: 115px;
-    padding: 10px 20px;
-    flex-wrap: wrap;
-    font-size: 20px;
-    font-weight: bold;
+function startGame() {
+
+    let scoreValue = 0;
+    let timeValue = 1;
+    let currentNumber = 0;
+    let sumValue = 0;
+    let penaltyNumber = 0;
+    let gameSpeed = 1000; 
+    let bubbleClicked = false;
+
+    const bubble = document.querySelector('.bbl');
+    const scoreDisplay = document.querySelector('#score');
+    const timeDisplay = document.querySelector('#time');
+    const scopeImage = document.querySelector('#scope');
+    const gameArea = document.querySelector('#man');
+    const sumDisplay = document.querySelector('#sum');
+    const startbtn = document.querySelector('#Start');
+
+    document.querySelector('#restart').onclick = function () {
+        location.reload();
+    };
+
+    function showNewBubble() {
+        currentNumber = Math.floor(Math.random() * 30) + 1;
+
+        if (currentNumber <= 7) {
+            bubble.textContent = `- ${currentNumber}`;
+            penaltyNumber = currentNumber;
+            bubble.style.backgroundColor = '#a00'; 
+        } else {
+            bubble.textContent = `${currentNumber}`;
+            bubble.style.backgroundColor = 'rgba(50, 62, 170, 0.774)'; 
+            penaltyNumber = 0;
         }
-    .bbl{
-        display: flex;
-        justify-content: center; 
-      align-items: center;
-        border-radius: 50%;
-        height: 50px;
-        width: 50px;
-        background-color: rgba(50, 62, 170, 0.774);
-        position: absolute;
-        top: 0px;
-        position: absolute;
-        font-weight: bold;
-       
-    }
-    #man{
-        position: relative;
-        overflow: hidden; 
-        height: 45vh;
-        width: 68vh;
-    position: relative;
-    border-top: 3px solid salmon;
-    border-bottom: 3px solid salmon;
-    border-left: 3px solid salmon;
-    border-right: 3px solid salmon;
-    cursor: none;
-    background-color: #faebd7;
-    }
-    img{
-        width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      object-fit: cover;
-      position: absolute;
-      pointer-events: none;
-      transition: left 0.05s, top 0.05s;
-      transform: translate(-50%, -50%);       
-    }
-   #Start , #restart{
-        margin: 20px;
-    padding: 10px 20px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    }
-   #img{
-        height: 20px;
-        width: 20px;
-        border-radius: 50%;
-        position: absolute;
-        font-weight: bold;
-    }
-    /* Extra small devices (phones, less than 576px) */
-@media (max-width: 575.98px) {
-    #info {
-        gap: 30px;
-        font-size: 14px;
-        flex-direction: column;
-        padding: 10px;
-    }
 
-    .bbl {
-        height: 40px;
-        width: 40px;
-        font-size: 12px;
+        const left = Math.floor(Math.random() * (gameArea.clientWidth - 50));
+        const top = Math.floor(Math.random() * (gameArea.clientHeight - 50));
+        bubble.style.left = left + 'px';
+        bubble.style.top = top + 'px';
     }
+    
+    bubble.addEventListener('click', function () {
+      bubbleClicked = true;
+    });
 
-    #man {
-        width: 90vw;
-        height: 35vh;
-    }
+    const gameLoop = setInterval(() => {
+        if (bubbleClicked) {
+            let points = currentNumber > 7 ? currentNumber : -currentNumber;
+            sumValue += points;
+            if (sumValue < 0) 
+             sumValue = 0;
+            sumDisplay.textContent = `Score: ${sumValue}`;
+            scoreValue++;
+            scoreDisplay.textContent = `Click: ${scoreValue}`;
+        } else {
+            sumValue = Math.max(0, sumValue - 1);
+            console.log(sumValue);
+            sumDisplay.textContent = `Score: ${sumValue}`;
+        }
+        bubbleClicked = false;
+    }, gameSpeed);
 
-    img {
-        width: 50px;
-        height: 50px;
-    }
+    const bubbleTimer = setInterval(showNewBubble, gameSpeed);
 
-   #Start , #restart {
-        width: 100%;
-        font-size: 14px;
-    }
+    const timer = setInterval(function () {
+        timeValue++;
+        timeDisplay.textContent = `Time: ${timeValue} sec`;
+
+        if (timeValue>=60) {
+            alert(`Game Over! Your score is: ${sumValue}`);
+            clearInterval(gameLoop);
+            clearInterval(bubbleTimer);
+            clearInterval(timer);
+            bubble.style.display = 'none';
+            scopeImage.style.display = 'none';
+            startbtn.style.display = 'none';
+        }
+    }, 1000);
+
+    gameArea.addEventListener('mousemove', function (e) {
+      scopeImage.style.left = e.clientX + 'px';
+      scopeImage.style.top = e.clientY + 'px';
+    });
 }
 
-/* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) and (max-width: 767.98px) {
-    #info {
-        gap: 60px;
-        font-size: 16px;
-        flex-direction: row;
-    }
+document.querySelector('#Start').onclick = function (e) {
+if(e.type == "click"){
+  startGame()
+}};
 
-    .bbl {
-        height: 45px;
-        width: 45px;
-    }
-
-    #man {
-        width: 80vw;
-        height: 38vh;
-    }
-
-    img {
-        width: 60px;
-        height: 60px;
-    }
-}
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) and (max-width: 991.98px) {
-    #info {
-        gap: 80px;
-        font-size: 18px;
-    }
-
-    #man {
-        width: 75vw;
-        height: 42vh;
-    }
-
-    img {
-        width: 65px;
-        height: 65px;
-    }
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-    #info {
-        gap: 115px;
-        font-size: 20px;
-    }
-
-    #man {
-        width: 68vh;
-        height: 45vh;
-    }
-
-    img {
-        width: 70px;
-        height: 70px;
-    }
-}
