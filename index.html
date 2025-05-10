@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css">
+  <title>Random Circles</title>
 </head>
-
-<body>
-    <div id="info">
-    <div id="score">Score: 0</div>
-    <div id="time">Time: 1 sect</div>
-    <div id="sum">Sum : 0</div>
-    </div>
-    <div id="man">
-      <div class="bbl"></div>
-    </div>
-<img src="snprscope.png" alt="" id="scope">
-<button id="restart">Restart</button>
+<body >
+  <div id="info">
+    <div id="click-data">Click: 15</div>  
+    <div id="target">Target: 0</div>
+    <div id="time">Time: 0 Sec</div>
+    <div id="sum">Sum: 0 </div>
+  </div>
+  <div id="number"></div>
+  <button id="reset" onclick="restartFunction()">Restart</button>
+ 
+  <button id="submit" onclick="andgame(this)">End Game</button>
+  
 </body>
- <script src="test.js"></script> 
+<script src="scripat.js"></script>
 </html>
-
