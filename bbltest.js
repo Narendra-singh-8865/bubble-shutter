@@ -1,4 +1,5 @@
 function startGame() {
+
     let scoreValue = 0;
     let timeValue = 1;
     let currentNumber = 0;
@@ -13,6 +14,7 @@ function startGame() {
     const scopeImage = document.querySelector('#scope');
     const gameArea = document.querySelector('#man');
     const sumDisplay = document.querySelector('#sum');
+    const startbtn = document.querySelector('#Start');
 
     document.querySelector('#restart').onclick = function () {
         location.reload();
@@ -38,24 +40,23 @@ function startGame() {
     }
     
     bubble.addEventListener('click', function () {
-        bubbleClicked = true;
+      bubbleClicked = true;
     });
 
     const gameLoop = setInterval(() => {
         if (bubbleClicked) {
             let points = currentNumber > 7 ? currentNumber : -currentNumber;
             sumValue += points;
-
-            if (sumValue < 0) sumValue = 0;
-
-            sumDisplay.textContent = `Sum: ${sumValue}`;
+            if (sumValue < 0) 
+             sumValue = 0;
+            sumDisplay.textContent = `Score: ${sumValue}`;
             scoreValue++;
-            scoreDisplay.textContent = `Score: ${scoreValue}`;
+            scoreDisplay.textContent = `Click: ${scoreValue}`;
         } else {
             sumValue = Math.max(0, sumValue - 1);
-            sumDisplay.textContent = `Sum: ${sumValue}`;
+            console.log(sumValue);
+            sumDisplay.textContent = `Score: ${sumValue}`;
         }
-
         bubbleClicked = false;
     }, gameSpeed);
 
@@ -65,13 +66,14 @@ function startGame() {
         timeValue++;
         timeDisplay.textContent = `Time: ${timeValue} sec`;
 
-        if (timeValue >= 60) {
-            alert(`Game Over! Your score is: ${scoreValue}`);
+        if (timeValue>=60) {
+            alert(`Game Over! Your score is: ${sumValue}`);
             clearInterval(gameLoop);
             clearInterval(bubbleTimer);
             clearInterval(timer);
             bubble.style.display = 'none';
             scopeImage.style.display = 'none';
+            startbtn.style.display = 'none';
         }
     }, 1000);
 
